@@ -1,0 +1,28 @@
+{
+  "name": "codeeditor",
+  "version": "0.0.1",
+  "description": "A node.js application that will clone a local repo and allow local editing of files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "WebIDE"
+  ],
+  "author": "Brian Leathem",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.3.12",
+    "gulp": "^3.8.11",
+    "gulp-livereload": "^3.7.0",
+    "gulp-nodemon": "^1.0.5",
+    "gulp-util": "^3.0.3",
+    "open": "0.0.5",
+    "underscore": "^1.7.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.12.0",
+    "express": "^4.11.2",
+    "morgan": "^1.5.1"
+  }
+}

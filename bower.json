@@ -1,0 +1,21 @@
+{
+  "name": "codeeditor",
+  "version": "0.0.1",
+  "authors": [
+    "Brian Leathem <bleathem@gmail.com>"
+  ],
+  "description": "A node.js application that will clone a local repo and allow local editing of files",
+  "keywords": [
+    "WebIDE"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}

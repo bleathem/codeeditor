@@ -1,1 +1,25 @@
-Hello World
+<!DOCTYPE html>
+<html ng-app="codeeditor">
+<head>
+  <meta charset='utf8'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <title>CodeEditor</title>
+
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="resources/css/app.css"/>
+
+  <base href="/" />
+  <script defer src="lib/angular/angular.js"></script>
+  <script defer src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+  <script defer src="app/app.js"></script>
+  <script defer src="app/main/main.js"></script>
+  <script defer src="app/home/home.js"></script>
+  <script defer src="app/repo/repo.js"></script>
+</head>
+  <body>
+
+    <div ui-view></div>
+
+  </body>
+</html>

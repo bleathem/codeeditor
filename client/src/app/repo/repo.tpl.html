@@ -1,4 +1,15 @@
 <div class="container">
-  Let's clone a repo
+  <div>
+    <h3>Let's clone a repo</h3>
+    <label>Repo url:</label>
+    <input type="text"></input>
+    <button>Clone repo</button>
+  </div>
+  <div>
+    <h3>Repo file listing</h3>
+    <ul>
+      <li ng-repeat="path in files.paths"><a>{{path}}</a></li>
+    </ul>
+  </div>
 </div>
 </div>

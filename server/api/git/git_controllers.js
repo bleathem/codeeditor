@@ -46,6 +46,36 @@ module.exports = exports = {
     })
     .done()
   },
+  getFiles: function(req, res, next) {
+    var filename = req.params.filename + req.params[0];
+    var paths = [];
+    var repoPath = os.tmpdir() + '/clones';
+    nodegit.Repository.open(path.resolve(repoPath, '.git')).then(function(repo) {
+      return repo.getMasterCommit();
+    })
+    .then(function(commit) {
+      return commit.getTree();
+    })
+    .then(function(tree) {
+      // `walk()` returns an event.
+      var walker = tree.walk();
+      walker.on('entry', function(entry) {
+        var path = entry.path();
+        // console.log(path);
+        paths.push(path)
+      });
+      walker.on('tree', function(entry) {
+        var path = entry.path();
+        // console.log(path);
+        paths.push(path)
+      });
+      walker.on('end', function(entries) {
+        res.send(paths);
+      });
+      walker.start();
+    })
+    .done()
+  },
   getFile: function(req, res, next) {
     var filename = req.params.filename + req.params[0];
     var repoPath = os.tmpdir() + '/clones';

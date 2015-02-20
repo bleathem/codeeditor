@@ -2,6 +2,7 @@
 (function (angular) {
   angular.module('codeeditor.main.repo', [
     'ui.router'
+  , 'codeeditor.main.repo.services'
   ])
 
   .config(function ($stateProvider) {
@@ -14,7 +15,13 @@
       });
   })
 
-  .controller('RepoController', function ($scope) {
+  .controller('RepoController', function ($scope, $http, repo) {
+    $scope.files = {
+      paths: []
+    };
+    repo.getFileListing().then(function(paths) {
+      $scope.files.paths = paths;
+    });
   })
 
   ;

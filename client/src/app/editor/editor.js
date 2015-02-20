@@ -3,6 +3,7 @@
   angular.module('codeeditor.main.editor', [
     'ui.router'
   , 'codeeditor.main.editor.services'
+  , 'ui.codemirror'
   ])
 
   .config(function ($stateProvider) {
@@ -19,6 +20,11 @@
     $scope.editorfile = {
       path: $stateParams.path
     };
+    $scope.editorOptions = {
+      lineWrapping : true,
+        lineNumbers: true,
+        mode: 'javascript'
+    }
     if ($stateParams.path) {
       editor.getFile($stateParams.path).then(function(contents) {
         $scope.editorfile.contents = contents;

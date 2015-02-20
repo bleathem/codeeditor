@@ -4,6 +4,7 @@
     'ui.router'
   , 'codeeditor.main.home'
   , 'codeeditor.main.repo'
+  , 'codeeditor.main.editor'
   ])
   .config(function ($stateProvider, $locationProvider) {
     $stateProvider

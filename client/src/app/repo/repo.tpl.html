@@ -8,7 +8,7 @@
   <div>
     <h3>Repo file listing</h3>
     <ul>
-      <li ng-repeat="path in files.paths"><a>{{path}}</a></li>
+      <li ng-repeat="path in files.paths"><a ui-sref="codeeditor.main.editor({path: path})">{{path}}</a></li>
     </ul>
   </div>
 </div>

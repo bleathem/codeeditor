@@ -1,13 +1,14 @@
 'use strict';
 (function (angular) {
-  angular.module('codeeditor.main.repo.services', [])
+  angular.module('codeeditor.main.editor.services', [])
 
-  .factory('repo', function ($q, $http) {
-    var repo = {};
+  .factory('editor', function ($q, $http) {
+    var editor = {};
 
-    repo.getFileListing = function() {
+    editor.getFile = function(filename) {
       var deferred = $q.defer();
-      var url = '/api/git/files';
+      var url = '/api/git/file/' + filename;
+      console.log(url);
       $http({
         method: 'get',
         url: url
@@ -20,7 +21,8 @@
       return deferred.promise;
     }
 
-    return repo;
+    return editor;
   })
+
   ;
 })(angular);

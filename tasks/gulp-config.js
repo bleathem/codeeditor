@@ -4,7 +4,11 @@ var _ = require('underscore')
   ;
 
 var opts = {
-  paths: {}
+  paths: {
+    server: {
+      specs: 'server/**/*.spec.js'
+    }
+  }
 , lrPort: 35729
 , frontend: {
     hostname: 'localhost'

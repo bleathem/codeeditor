@@ -1,0 +1,18 @@
+= A code editor
+
+A Angular.js application with a node.js/express.js backend.  Clones a git repo,
+and present a simple code editor for editing files.
+
+Pre-requisutes:
+
+* node.js (installed globally)
+* gulp.js (installed globally)
+* bower (installed globally)
+
+To run the project execute the following commands in your local clone of this repository:
+[source, bash]
+----
+> npm install
+> bower isntall
+> gulp
+----

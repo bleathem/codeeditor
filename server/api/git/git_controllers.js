@@ -2,6 +2,7 @@
 
 var nodegit = require('nodegit')
   , path = require('path')
+  , os = require('os')
   ;
 
 function cloneOrOpenRepo(url, repoPath) {
@@ -15,11 +16,10 @@ function cloneOrOpenRepo(url, repoPath) {
 };
 
 module.exports = exports = {
-  cloneRepo : function (req, res, next) {
+  cloneRepo: function(req, res, next) {
     var url = req.body.repoUrl;
-    console.log('url', url);
     var paths = [];
-    var repoPath = 'clones'
+    var repoPath = os.tmpdir() + '/clones'
     cloneOrOpenRepo(url, repoPath).then(function(repo) {
       return repo.getMasterCommit();
     })
@@ -45,5 +45,23 @@ module.exports = exports = {
       walker.start();
     })
     .done()
+  },
+  getFile: function(req, res, next) {
+    var filename = req.params.filename + req.params[0];
+    var repoPath = os.tmpdir() + '/clones';
+    nodegit.Repository.open(path.resolve(repoPath, '.git')).then(function(repo) {
+      return repo.getMasterCommit();
+    })
+    .then(function(commit) {
+      return commit.getEntry(filename);
+    })
+    .then(function(entry) {
+      var _entry = entry;
+      return _entry.getBlob();
+    })
+    .then(function(blob) {
+      res.json(blob.toString());
+    })
+    .done();
   }
 }

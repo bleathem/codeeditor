@@ -8,7 +8,7 @@ var request = require('supertest')
 require('should');
 
 describe('Rest API:', function () {
-  describe('GET /api/git/clone', function () {
+  describe('POST /api/git/clone', function () {
     this.timeout(30000);
     it('clone a repo', function (done) {
       request(app).post('/api/git/clone?repo_url=test')
@@ -17,6 +17,18 @@ describe('Rest API:', function () {
         .end(function (err, res) {
           // console.log(res.body);
           res.body.length.should.be.greaterThan(2);
+          done();
+        });
+    });
+  });
+  describe('GET /api/file/filename', function () {
+    it('retrieve a file', function (done) {
+      request(app).get('/api/git/file/gulpfile.js')
+        .expect(200)
+        .end(function (err, res) {
+          var fileContents = res.body;
+          fileContents.length.should.be.greaterThan(10);
+          // res.body.should.be.exactly('path/to/a/file');
           done();
         });
     });

@@ -2,13 +2,16 @@
   <div>
     <h3>Let's clone a repo</h3>
     <label>Repo url:</label>
-    <input type="text"></input>
-    <button>Clone repo</button>
+    <input type="text" ng-model="repo.url"></input>
+    <br />
+    <br />
+    <button class="btn btn-default" ng-click="cloneRepo()">Clone repo</button>
+    <button class="btn btn-danger" ng-click="deleteRepo()">Delete repo</button>
   </div>
   <div>
     <h3>Repo file listing</h3>
     <ul>
-      <li ng-repeat="path in files.paths"><a ui-sref="codeeditor.main.editor({path: path})">{{path}}</a></li>
+      <li ng-repeat="path in repo.paths"><a ui-sref="codeeditor.main.editor({path: path})">{{path}}</a></li>
     </ul>
   </div>
 </div>

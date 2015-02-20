@@ -15,13 +15,26 @@
       });
   })
 
-  .controller('RepoController', function ($scope, $http, repo) {
-    $scope.files = {
-      paths: []
-    };
-    repo.getFileListing().then(function(paths) {
-      $scope.files.paths = paths;
+  .controller('RepoController', function ($scope, $http, repoServices) {
+    $scope.repo = {
+      url: 'https://github.com/bleathem/visualCubeGenerator.git'
+    , paths: []
+    }
+    repoServices.getFileListing().then(function(paths) {
+      $scope.repo.paths = paths;
+    }, function(error) {
+
     });
+    $scope.cloneRepo = function() {
+      repoServices.cloneRepo($scope.repo.url).then(function(paths) {
+        $scope.repo.paths = paths;
+      });
+    };
+    $scope.deleteRepo = function() {
+      repoServices.deleteRepo().then(function(exists) {
+        $scope.repo.paths = null;
+      });
+    };
   })
 
   ;

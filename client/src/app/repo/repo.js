@@ -22,8 +22,6 @@
     }
     repoServices.getFileListing().then(function(paths) {
       $scope.repo.paths = paths;
-    }, function(error) {
-
     });
     $scope.cloneRepo = function() {
       repoServices.cloneRepo($scope.repo.url).then(function(paths) {

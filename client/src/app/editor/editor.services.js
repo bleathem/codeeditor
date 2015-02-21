@@ -24,5 +24,22 @@
     return editor;
   })
 
+  .factory('ternServer', function($q, $http) {
+    return {
+      get: function() {
+        var deferred = $q.defer();
+        $http({method: 'get', url: '/lib/tern/defs/ecma5.json'}).then(function(response) {
+          var code = response.data;
+          var server = new CodeMirror.TernServer({defs: [code]});
+          deferred.resolve(server);
+        }, function(response) {
+          var message = '#' + response.status + ' - ' + response.statusText;
+          deferred.reject(new Error(message));
+        });
+        return deferred.promise;
+      }
+    }
+  })
+
   ;
 })(angular);

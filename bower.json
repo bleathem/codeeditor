@@ -2,7 +2,8 @@
   "name": "codeeditor",
   "version": "0.0.1",
   "authors": [
-    "Brian Leathem <bleathem@gmail.com>"
+    "Brian Leathem <bleathem@gmail.com>",
+    "Ken Finnigan <ken@kenfinnigan.me"
   ],
   "description": "A node.js application that will clone a local repo and allow local editing of files",
   "keywords": [

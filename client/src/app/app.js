@@ -1,8 +1,9 @@
 'use strict';
 (function (angular) {
   angular.module('codeeditor', [
-    'ui.router'
-  , 'codeeditor.main',
+    'ui.router',
+    'codeeditor.main',
+    'codeeditor.directives'
   ])
 
   .config(function ($stateProvider, $urlRouterProvider) {

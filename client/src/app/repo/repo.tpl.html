@@ -2,7 +2,7 @@
   <div>
     <h3>Let's clone a repo</h3>
     <label>Repo url:</label>
-    <input type="text" ng-model="repo.url"></input>
+    <input type="text" ng-model="repo.url">
     <br />
     <br />
     <button class="btn btn-default" ng-click="cloneRepo()">Clone repo</button>
@@ -10,9 +10,7 @@
   </div>
   <div>
     <h3>Repo file listing</h3>
-    <ul>
-      <li ng-repeat="path in repo.paths"><a ui-sref="codeeditor.main.editor({path: path})">{{path}}</a></li>
-    </ul>
+    <div repo-tree="repo">
+    </div>
   </div>
-</div>
 </div>

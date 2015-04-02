@@ -17,7 +17,7 @@
 
   .controller('RepoController', function ($scope, $http, repoServices) {
     $scope.repo = {
-      url: 'https://github.com/bleathem/visualCubeGenerator.git'
+      url: 'https://github.com/bleathem/codeeditor.git'
     , paths: []
     };
     repoServices.getFileListing().then(function(paths) {

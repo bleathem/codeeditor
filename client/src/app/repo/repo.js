@@ -19,7 +19,7 @@
     $scope.repo = {
       url: 'https://github.com/bleathem/visualCubeGenerator.git'
     , paths: []
-    }
+    };
     repoServices.getFileListing().then(function(paths) {
       $scope.repo.paths = paths;
     });

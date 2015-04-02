@@ -43,7 +43,7 @@
       var url = '/api/git';
       $http({
         method: 'delete',
-        url: url,
+        url: url
       }).then(function(response) {
           deferred.resolve(response.data);
         }, function(response) {

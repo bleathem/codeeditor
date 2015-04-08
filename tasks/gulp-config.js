@@ -12,7 +12,7 @@ var opts = {
 , lrPort: 35729
 , frontend: {
     hostname: 'localhost'
-  , port: '9000'
+  , port: process.env.PORT || '9000'
   }
 };
 

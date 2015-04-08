@@ -5,14 +5,15 @@ and present a simple code editor for editing files.
 
 Pre-requisutes:
 
-* node.js (installed globally)
-* gulp.js (installed globally)
-* bower (installed globally)
+(it is useful to install and use 'nvm' to manage nodejs versions)
+* node.js (installed globally) via yum or nvm
+* gulp.js (installed globally) npm install -g gulp
+* bower (installed globally) npm install -g bower
 
 To run the project execute the following commands in your local clone of this repository:
 [source, bash]
 ----
-> npm install
-> bower isntall
-> gulp
+> npm install (downloads npm packages into the project)
+> bower install (downloads javascript libs into the project)
+> gulp (builds the project)
 ----

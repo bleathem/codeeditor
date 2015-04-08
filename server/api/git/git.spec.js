@@ -44,6 +44,23 @@ describe('Rest API:', function () {
         });
     });
   });
+  describe('POST /api/git/file/diff/:filename', function () {
+    it('diff a file', function (done) {
+      request(app).post('/api/git/file/diff/gulpfile.js')
+        .send({text: ''})
+        .expect(200)
+        .end(function (err, res) {
+          console.log('*****\n', res.body, '\n*****');
+          var diffs = res.body;
+          diffs.length.should.equal(1);
+          diffs[0].oldStart.should.equal(1);
+          diffs[0].oldLines.should.be.greaterThan(2);
+          diffs[0].newStart.should.equal(0);
+          diffs[0].newLines.should.equal(0);
+          done();
+        });
+    });
+  });
   describe('DELETE /api/git', function () {
     it('delete the clone', function (done) {
       request(app).delete('/api/git')

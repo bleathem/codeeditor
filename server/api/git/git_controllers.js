@@ -5,6 +5,7 @@ var nodegit = require('nodegit')
   , os = require('os')
   , rimraf = require('rimraf')
   , fs = require('fs')
+  , gitutils = require('git-utils')
   ;
 
 function cloneOrOpenRepo(url, repoPath) {
@@ -115,6 +116,20 @@ module.exports = exports = {
           res.json(blob.toString());
         })
         .done();
+      } else {
+        next('Clone a repo first');
+      }
+    });
+  },
+
+  getLineDiff: function(req, res, next) {
+    fs.exists(repoPath, function(exists) {
+      if (exists) {
+        var repository = gitutils.open(repoPath)
+          , path = req.params.filename + req.params[0]
+          , text = req.body.text;
+        var diffs = repository.getLineDiffs(path, text);
+        res.json(diffs);
       } else {
         next('Clone a repo first');
       }

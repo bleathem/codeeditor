@@ -8,7 +8,8 @@ var nodegit = require('nodegit')
   ;
 
 function cloneOrOpenRepo(url, repoPath) {
-  return nodegit.Clone.clone(url, repoPath).then(function(repo) {
+  var opts = { ignoreCertErrors: 1 };
+  return nodegit.Clone.clone(url, repoPath, opts).then(function(repo) {
     return repo;
   }, function (err) {
     console.log(err);

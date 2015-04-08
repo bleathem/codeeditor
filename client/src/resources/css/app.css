@@ -1,3 +1,28 @@
 .CodeMirror {
   height: 60rem;
 }
+
+.git-line {
+  width: 0.0em;
+}
+
+.CodeMirror-gutter-wrapper .add {
+  white-space: pre;
+  background-color: lightgreen;
+}
+
+.CodeMirror-gutter-wrapper .mod {
+  white-space: pre;
+  background-color: lightblue;
+}
+
+.CodeMirror-gutter-wrapper .rem {
+
+}
+
+.CodeMirror-gutter-wrapper .rem::before {
+  display: inline-block;
+  vertical-align: -50%;
+  color: LightCoral;
+  content: '\25b6';
+}

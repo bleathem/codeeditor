@@ -14,7 +14,7 @@ module.exports = function(gulp, opts) {
       script: 'server/server.js',
       ignore: ['**/node_modules/**/*.js'],
       watch: ['server'],
-      nodeArgs: ['--debug']
+      nodeArgs: process.env.DEBUG ? ['--debug'] : []
       })
       .on('restart', function () {
         gutil.log('...nodemon restart');

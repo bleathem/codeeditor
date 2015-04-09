@@ -6,18 +6,16 @@
   width: 0.0em;
 }
 
-.CodeMirror-gutter-wrapper .add {
+.CodeMirror-gutter-wrapper .add::before {
   white-space: pre;
   background-color: lightgreen;
+  content: ' ';
 }
 
-.CodeMirror-gutter-wrapper .mod {
+.CodeMirror-gutter-wrapper .mod::before {
   white-space: pre;
   background-color: lightblue;
-}
-
-.CodeMirror-gutter-wrapper .rem {
-
+  content: ' ';
 }
 
 .CodeMirror-gutter-wrapper .rem::before {

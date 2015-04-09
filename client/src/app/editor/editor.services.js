@@ -45,14 +45,12 @@
 
     var addMarker = $document[0].createElement('span');
     addMarker.className = 'add';
-    addMarker.appendChild($document[0].createTextNode(' '));
 
     var remMarker = $document[0].createElement('span');
     remMarker.className = 'rem';
 
     var modMarker = $document[0].createElement('span');
     modMarker.className = 'mod';
-    modMarker.appendChild($document[0].createTextNode(' '));
 
     var markGutterRows = function (editor, startRow, endRow, marker) {
       for (var i = startRow; i <= endRow; i++) {

@@ -171,20 +171,11 @@ module.exports = exports = {
     fs.exists(repoPath, function(exists) {
       if (exists) {
         var filename = req.params.filename + req.params[0];
-        nodegit.Repository.open(path.resolve(repoPath, '.git')).then(function(repo) {
-          return repo.getMasterCommit();
-        })
-        .then(function(commit) {
-          return commit.getEntry(filename);
-        })
-        .then(function(entry) {
-          var _entry = entry;
-          return _entry.getBlob();
-        })
-        .then(function(blob) {
-          res.json(blob.toString());
-        })
-        .done();
+        fs.readFile(path.resolve(repoPath, filename), function(err, data) {
+          if (err) throw err;
+
+          res.json(data.toString());
+        });
       } else {
         next('Clone a repo first');
       }

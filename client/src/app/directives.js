@@ -12,6 +12,7 @@
             expandIcon: "fa fa-angle-right",
             nodeIcon: "fa fa-folder",
             showBorder: false,
+            levels: 1,
             enableLinks: true
           });
         }

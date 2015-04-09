@@ -11,7 +11,8 @@
             data: scope.repo.paths,
             expandIcon: "fa fa-angle-right",
             nodeIcon: "fa fa-folder",
-            showBorder: false
+            showBorder: false,
+            enableLinks: true
           });
         }
       };

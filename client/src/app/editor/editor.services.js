@@ -85,7 +85,7 @@
 
       link: function (scope, element, attrs) {
         scope.$watch('editorfile.contents', function(newValue, oldValue) {
-          if (!oldValue) {
+          if (!newValue) {
             return;
           }
           if (!scope.editor) {return};

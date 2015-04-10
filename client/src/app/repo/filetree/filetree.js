@@ -1,6 +1,6 @@
 'use strict';
-(function(angular) {
-  angular.module('codeeditor.directives', [])
+(function (angular) {
+  angular.module('codeeditor.main.repo.filetree', [])
 
     .directive('repoTree', function() {
 

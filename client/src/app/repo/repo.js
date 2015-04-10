@@ -1,8 +1,9 @@
 'use strict';
 (function (angular) {
   angular.module('codeeditor.main.repo', [
-    'ui.router'
-  , 'codeeditor.main.repo.services'
+    'ui.router',
+    'codeeditor.main.repo.services',
+    'codeeditor.main.repo.filetree'
   ])
 
   .config(function ($stateProvider) {

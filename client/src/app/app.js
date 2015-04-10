@@ -2,8 +2,7 @@
 (function (angular) {
   angular.module('codeeditor', [
     'ui.router',
-    'codeeditor.main',
-    'codeeditor.directives'
+    'codeeditor.main'
   ])
 
   .config(function ($stateProvider, $urlRouterProvider) {

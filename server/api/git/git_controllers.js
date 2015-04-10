@@ -84,37 +84,38 @@ function buildTree(element, fullPath, parentNode) {
 }
 
 function getFileTree(repo) {
+  var flatIndex;
   return repo.index()
     .then(function(index) {
-      var flatIndex = index.entries().reduce(function(prev, entry) {
+      flatIndex = index.entries().reduce(function(prev, entry) {
         prev.push(entry.path);
         return prev;
       }, []);
       return flatIndex;
     })
     .then(function(flatIndex) {
-      return repo.getStatus().then(function(statuses) {
-        statuses.forEach(function(status) {
-          if (status.isNew()) {
-            if (!flatIndex.some(function(element) { return element == status.path() })) {
-              flatIndex.push(status.path());
-            }
-          } else if (status.isDeleted()) {
-            flatIndex = flatIndex.filter(function(element) {
-              if (element == status.path()) {
-                return false;
-              }
-              return true;
-            });
+      return repo.getStatus()
+    })
+    .then(function(statuses) {
+      statuses.forEach(function(status) {
+        if (status.isNew()) {
+          if (!flatIndex.some(function(element) { return element == status.path() })) {
+            flatIndex.push(status.path());
           }
-        });
+        } else if (status.isDeleted()) {
+          flatIndex = flatIndex.filter(function(element) {
+            if (element == status.path()) {
+              return false;
+            }
+            return true;
+          });
+        }
+      });      
+      flatIndex.sort(comparePaths);
+      var paths = [];
+      flatIndex.forEach(function(element) { buildTree(element, element, paths); });
 
-        flatIndex.sort(comparePaths);
-        var paths = [];
-        flatIndex.forEach(function(element) { buildTree(element, element, paths); });
-
-        return paths;
-      });
+      return paths;
     });
 };
 

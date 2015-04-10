@@ -50,7 +50,7 @@ describe('Rest API:', function () {
         .send({text: ''})
         .expect(200)
         .end(function (err, res) {
-          console.log('*****\n', res.body, '\n*****');
+          // console.log('*****\n', res.body, '\n*****');
           var diffs = res.body;
           diffs.length.should.equal(1);
           diffs[0].oldStart.should.equal(1);

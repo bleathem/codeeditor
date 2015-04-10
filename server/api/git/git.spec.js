@@ -12,7 +12,7 @@ describe('Rest API:', function () {
     this.timeout(10000);
     it('clone a repo', function (done) {
       request(app).post('/api/git/clone')
-        .send({repoUrl: 'https://github.com/bleathem/visualCubeGenerator.git'})
+        .send({repoUrl: 'https://github.com/bleathem/codeeditor.git'})
         .expect(200)
         .end(function (err, res) {
           // console.log(res.body);

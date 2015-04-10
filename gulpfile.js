@@ -3,7 +3,7 @@
 var gulp = require('gulp')
   ;
 
-var opts = require('./tasks/gulp-config.js')(gulp, {});;
+var opts = require('./tasks/gulp-config.js')(gulp, {});
 
 require('./tasks/server.js')(gulp, opts);
 require('./tasks/test-backend.js')(gulp, opts);

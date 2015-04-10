@@ -18,7 +18,7 @@ function cloneOrOpenRepo(url, repoPath) {
       return repo;
     });
   });
-};
+}
 
 function comparePaths(a, b) {
   var aSlash = a.indexOf('/');
@@ -94,7 +94,7 @@ function getFileTree(repo) {
       return flatIndex;
     })
     .then(function(flatIndex) {
-      return repo.getStatus()
+      return repo.getStatus();
     })
     .then(function(statuses) {
       statuses.forEach(function(status) {
@@ -117,38 +117,18 @@ function getFileTree(repo) {
 
       return paths;
     });
-};
+}
 
 var repoPath = os.tmpdir() + '/clones';
 
 module.exports = exports = {
   cloneRepo: function(req, res, next) {
     var url = req.body.repoUrl;
-    var paths = [];
-    cloneOrOpenRepo(url, repoPath).then(function(repo) {
-      return repo.getMasterCommit();
-    })
-    .then(function(firstCommitOnMaster) {
-      return firstCommitOnMaster.getTree();
-    })
-    .then(function(tree) {
-      // `walk()` returns an event.
-      var walker = tree.walk();
-      walker.on('entry', function(entry) {
-        var path = entry.path();
-        // console.log(path);
-        paths.push(path)
-      });
-      walker.on('tree', function(entry) {
-        var path = entry.path();
-        // console.log(path);
-        paths.push(path)
-      });
-      walker.on('end', function(entries) {
-        res.send(paths);
-      });
-      walker.start();
-    })
+    cloneOrOpenRepo(url, repoPath)
+      .then(getFileTree)
+      .then(function(paths) {
+        res.send(paths)
+      })
     .done()
   },
 

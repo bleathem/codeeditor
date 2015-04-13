@@ -1,0 +1,16 @@
+<div class="container">
+    <div>
+        <h3>Let's clone a repo</h3>
+        <label>Repo url:</label>
+        <input type="text" ng-model="project.url" size="50">
+        <br />
+        <br />
+        <button class="btn btn-default" ng-click="cloneRepo()">Clone repo</button>
+        <button class="btn btn-danger" ng-click="deleteRepo()">Delete repo</button>
+    </div>
+    <div class="projectView">
+        <div class="fileListing" repo-tree="project">
+        </div>
+        <div class="fileContent" ui-view></div>
+    </div>
+</div>

@@ -1,16 +1,16 @@
 'use strict';
 (function (angular) {
-  angular.module('codeeditor.main.repo.filetree', [])
+  angular.module('codeeditor.main.project.filetree', [])
 
     .directive('repoTree', function() {
 
       var treeViewRenderer = function(scope, el) {
-        if (scope.repo.paths && scope.repo.paths.length > 0) {
+        if (scope.project.paths && scope.project.paths.length > 0) {
           $(el).treeview({
             collapseIcon: "fa fa-angle-down",
-            data: scope.repo.paths,
+            data: scope.project.paths,
             expandIcon: "fa fa-angle-right",
-            nodeIcon: "fa fa-folder",
+            nodeIcon: "fa fa-folder-o",
             showBorder: false,
             levels: 1,
             enableLinks: true
@@ -21,10 +21,10 @@
       return {
         restrict: 'A',
         scope: {
-          repo: '=repoTree'
+          project: '=repoTree'
         },
         link: function(scope, el) {
-          scope.$watch('repo.paths', function() {
+          scope.$watch('project.paths', function() {
             treeViewRenderer(scope, el);
           });
 

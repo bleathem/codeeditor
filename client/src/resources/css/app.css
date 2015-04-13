@@ -24,3 +24,16 @@
   color: LightCoral;
   content: '\25b6';
 }
+
+.projectView {
+  margin-top: 20px;
+}
+
+.fileListing {
+  float: left;
+  width: 25%;
+}
+
+.fileContent {
+  float: left;
+}

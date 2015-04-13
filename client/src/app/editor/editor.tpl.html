@@ -1,13 +1,9 @@
-<div class="container">
-  <div>
-    <h3>File contents: {{editorfile.path}}</h3>
-    <ui-codemirror ui-codemirror-opts="editorOptions"
-                   ui-codemirror="{onLoad : codemirrorLoaded}"
-                   ng-model="editorfile.contents"
-                   editorfile="editorfile"
-                   editor="editor"
-                   filediff>
-    </ui-codemirror>
-  </div>
-</div>
+<div>
+  <ui-codemirror ui-codemirror-opts="editorOptions"
+                 ui-codemirror="{onLoad : codemirrorLoaded}"
+                 ng-model="editorfile.contents"
+                 editorfile="editorfile"
+                 editor="editor"
+                 filediff>
+  </ui-codemirror>
 </div>

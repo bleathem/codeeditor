@@ -1,6 +1,6 @@
 'use strict';
 (function (angular) {
-  angular.module('codeeditor.main.repo.services', [])
+  angular.module('codeeditor.main.project.repo.services', [])
 
   .factory('repoServices', function ($q, $http) {
     var repo = {};

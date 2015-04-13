@@ -57,7 +57,7 @@ function buildTree(element, fullPath, parentNode) {
     // Handle file
     parentNode.push({
       text: parts[0],
-      href: 'file?path=' + encodeURIComponent(fullPath),
+      href: 'project/file?path=' + encodeURIComponent(fullPath),
       icon: 'fa fa-file-o'
     });
   } else {

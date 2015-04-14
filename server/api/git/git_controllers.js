@@ -2,7 +2,6 @@
 
 var nodegit = require('nodegit')
   , path = require('path')
-  , os = require('os')
   , rimraf = require('rimraf')
   , fs = require('fs')
   , gitutils = require('git-utils')
@@ -119,12 +118,16 @@ function getFileTree(repo) {
     });
 }
 
-var repoPath = os.tmpdir() + '/clones';
+var baseRepoPath = '';
 
 module.exports = exports = {
+  setBaseRepoPath: function(basePath) {
+    baseRepoPath = basePath;
+  },
+
   cloneRepo: function(req, res, next) {
     var url = req.body.repoUrl;
-    cloneOrOpenRepo(url, repoPath)
+    cloneOrOpenRepo(url, baseRepoPath)
       .then(getFileTree)
       .then(function(paths) {
         res.send(paths)
@@ -133,8 +136,8 @@ module.exports = exports = {
   },
 
   deleteRepo: function(req, res, next) {
-    rimraf(repoPath, function() {
-      fs.exists(repoPath, function(exists) {
+    rimraf(baseRepoPath, function() {
+      fs.exists(baseRepoPath, function(exists) {
         console.log('exists', exists);
         res.send({exists: exists});
       });
@@ -142,9 +145,9 @@ module.exports = exports = {
   },
 
   getFiles: function(req, res, next) {
-    fs.exists(repoPath, function(exists) {
+    fs.exists(baseRepoPath, function(exists) {
       if (exists) {
-        nodegit.Repository.open(path.resolve(repoPath, '.git'))
+        nodegit.Repository.open(path.resolve(baseRepoPath, '.git'))
           .then(getFileTree)
           .then(function(paths) {
             res.send(paths)
@@ -157,10 +160,10 @@ module.exports = exports = {
   },
 
   getFile: function(req, res, next) {
-    fs.exists(repoPath, function(exists) {
+    fs.exists(baseRepoPath, function(exists) {
       if (exists) {
         var filename = req.params.filename + req.params[0];
-        fs.readFile(path.resolve(repoPath, filename), function(err, data) {
+        fs.readFile(path.resolve(baseRepoPath, filename), function(err, data) {
           if (err) throw err;
 
           res.json(data.toString());
@@ -172,9 +175,9 @@ module.exports = exports = {
   },
 
   getLineDiff: function(req, res, next) {
-    fs.exists(repoPath, function(exists) {
+    fs.exists(baseRepoPath, function(exists) {
       if (exists) {
-        var repository = gitutils.open(repoPath)
+        var repository = gitutils.open(baseRepoPath)
           , path = req.params.filename + req.params[0]
           , text = req.body.text;
         var diffs = repository.getLineDiffs(path, text);
@@ -184,4 +187,4 @@ module.exports = exports = {
       }
     });
   }
-}
+};

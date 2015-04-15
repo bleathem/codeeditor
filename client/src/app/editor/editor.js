@@ -48,7 +48,8 @@
         'Ctrl-Q': function(cm) { server.rename(cm); },
         'Ctrl-.': function(cm) { server.selectName(cm); }
       });
-      $scope.editor.setOption('gutters', ['git-line']);
+      $scope.editor.setOption('gutters', ['git-line', 'CodeMirror-lint-markers']);
+      $scope.editor.setOption('lint', {'predef': ['require', 'console']});
       $scope.editor.on('cursorActivity', function(cm) { server.updateArgHints(cm); });
     })
   })

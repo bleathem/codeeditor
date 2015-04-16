@@ -7,33 +7,28 @@ var request = require("supertest-as-promised")
   ;
 
 describe('Rest file API:', function () {
-  before(function (done) {
+  before(function () {
     // Clean up any old repo
-    request(app).delete('/api/git')
+    return request(app).delete('/api/git')
       .then(function (res) {
         // Clone repo for testing
-        request(app).post('/api/git/clone')
+        return request(app).post('/api/git/clone')
           .send({repoUrl: 'https://github.com/bleathem/codeeditor.git'})
-          .expect(200)
-          .end(function (err, res) {
-            res.body.length.should.be.greaterThan(2);
-            done();
-          });
-      })
-      .catch(function (err) {
-        done(err);
+          .expect(200);
+        })
+      .then(function (res) {
+        res.body.length.should.be.greaterThan(2);
       });
   });
 
   describe('File Retrieval:', function () {
-    it('retrieve a file', function (done) {
-      request(app).get('/api/file/gulpfile.js')
+    it('retrieve a file', function () {
+      return request(app).get('/api/file/gulpfile.js')
         .expect(200)
-        .end(function (err, res) {
-          var fileContents = res.body;
-          fileContents.length.should.be.greaterThan(10);
-          // res.body.should.be.exactly('path/to/a/file');
-          done();
+        .then(function (res) {
+            var fileContents = res.body;
+            fileContents.length.should.be.greaterThan(10);
+            // res.body.should.be.exactly('path/to/a/file');
         });
     });
   });
@@ -41,11 +36,11 @@ describe('Rest file API:', function () {
   describe('File Saving:', function () {
     this.timeout(6000);
 
-    it('Update existing file', function (done) {
+    it('Update existing file', function () {
       var fileContent = '';
 
       // Get current file content
-      request(app).get('/api/file/README.adoc')
+      return request(app).get('/api/file/README.adoc')
         .expect(200)
         .then(function (res) {
           fileContent = res.body;
@@ -75,30 +70,22 @@ describe('Rest file API:', function () {
           var updatedContent = res.body;
           updatedContent.length.should.be.greaterThan(21);
           updatedContent.should.eql(fileContent);
-          done();
-        })
-        .catch(function (err) {
-          done(err);
         });
     });
 
-    it('Fail to update non existent file', function (done) {
-      request(app).put('/api/file/badFile.txt')
+    it('Fail to update non existent file', function () {
+      return request(app).put('/api/file/badFile.txt')
         .send({content: 'any content'})
         .expect(404)
         .then(function (res) {
           res.error.text.should.be.exactly('badFile.txt does not exist.');
-          done();
-        })
-        .catch(function (err) {
-          done(err);
         });
     });
 
-    it('Create a new file', function (done) {
+    it('Create a new file', function () {
       var fileContent = 'First line of file.\nSecond line of file!';
 
-      request(app).post('/api/file')
+      return request(app).post('/api/file')
         .send({filename: 'testFile.txt', content: fileContent})
         .expect(201)
         .then(function (res) {
@@ -106,22 +93,15 @@ describe('Rest file API:', function () {
           return fileContent;
         })
         .then(function (fileContent) {
-          request(app).get('/api/file/testFile.txt')
-            .expect(200)
-            .then(function (res) {
-              res.body.should.be.exactly(fileContent);
-              done();
-            })
-            .catch(function (err) {
-              done(err);
-            });
-        })
-        .catch(function (err) {
-          done(err);
+          return request(app).get('/api/file/testFile.txt')
+            .expect(200);
+          })
+        .then(function (res) {
+          res.body.should.be.exactly(fileContent);
         });
     });
 
-    it('Create a new file with file in url', function (done) {
+    it('Create a new file with file in url', function () {
       var fileContent = 'First line of file.\nSecond line of file!';
 
       request(app).post('/api/file/anotherFile.txt')
@@ -132,25 +112,18 @@ describe('Rest file API:', function () {
           return fileContent;
         })
         .then(function (fileContent) {
-          request(app).get('/api/file/anotherFile.txt')
-            .expect(200)
-            .then(function (res) {
-              res.body.should.be.exactly(fileContent);
-              done();
-            })
-            .catch(function (err) {
-              done(err);
-            });
-        })
-        .catch(function (err) {
-          done(err);
+          return request(app).get('/api/file/anotherFile.txt')
+            .expect(200);
+          })
+        .then(function (res) {
+          res.body.should.be.exactly(fileContent);
         });
     });
 
-    it('Create a new file with path', function(done) {
+    it('Create a new file with path', function() {
       var fileContent = 'First line of file with path.\nSecond line of file with path!';
 
-      request(app).post('/api/file/new/path/pathFile.txt')
+      return request(app).post('/api/file/new/path/pathFile.txt')
         .send({content: fileContent})
         .expect(201)
         .then(function (res) {
@@ -158,55 +131,35 @@ describe('Rest file API:', function () {
           return fileContent;
         })
         .then(function (fileContent) {
-          request(app).get('/api/file/new/path/pathFile.txt')
+          return request(app).get('/api/file/new/path/pathFile.txt')
             .expect(200)
-            .then(function (res) {
-              res.body.should.be.exactly(fileContent);
-              done();
-            })
-            .catch(function (err) {
-              done(err);
-            });
-        })
-        .catch(function (err) {
-          done(err);
+          })
+        .then(function (res) {
+          res.body.should.be.exactly(fileContent);
         });
     });
 
-    it('Create a new file with path, from root', function (done) {
+    it('Create a new file with path, from root', function () {
       var fileContent = 'First line of file from root.\nSecond line of file!';
 
-      request(app).post('/api/file')
+      return request(app).post('/api/file')
         .send({filename: 'another/path/to/rootFile.txt', content: fileContent})
         .expect(201)
         .then(function (res) {
           res.body.should.be.exactly(fileContent);
         })
         .then(function () {
-          request(app).get('/api/file/another/path/to/rootFile.txt')
-            .expect(200)
-            .then(function (res) {
-              res.body.should.be.exactly(fileContent);
-              done();
-            })
-            .catch(function (err) {
-              done(err);
-            });
-        })
-        .catch(function (err) {
-          done(err);
+          return request(app).get('/api/file/another/path/to/rootFile.txt')
+            .expect(200);
+          })
+        .then(function (res) {
+          res.body.should.be.exactly(fileContent);
         });
     });
   });
 
-  after(function (done) {
+  after(function () {
     // Clean up repo
-    request(app).delete('/api/git')
-      .then(function (res) {
-        done();
-      })
-      .catch(function (err) {
-        done(err);
-      });
+    return request(app).delete('/api/git');
   });
 });

@@ -23,6 +23,7 @@
     "open": "0.0.5",
     "should": "^5.0.0",
     "supertest": "^0.15.0",
+    "supertest-as-promised": "^2.0.0",
     "underscore": "^1.7.0"
   },
   "dependencies": {

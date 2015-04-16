@@ -59,8 +59,6 @@ describe('Rest file API:', function () {
         })
         .then(function (res) {
           res.status.should.be.equal(200);
-        })
-        .then(function () {
           return request(app).get('/api/file/README.adoc')
             .expect(200);
         })

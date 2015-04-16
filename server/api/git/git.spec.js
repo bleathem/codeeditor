@@ -1,6 +1,6 @@
 'use strict';
 
-var request = require("supertest-as-promised")
+var request = require('supertest-as-promised')
   , app = require('../../main/app')
   , _ = require('underscore')
   ;
@@ -43,6 +43,61 @@ describe('Rest git API:', function () {
           diffs[0].oldLines.should.be.greaterThan(2);
           diffs[0].newStart.should.equal(0);
           diffs[0].newLines.should.equal(0);
+        });
+    });
+  });
+  describe('Files Diff:', function () {
+    this.timeout(6000);
+
+    it('Return the diff after modifying a file', function () {
+      var fileContent = '';
+
+      // Get current file content
+      return request(app).get('/api/file/README.adoc')
+        .expect(200)
+        .then(function (res) {
+          fileContent = res.body;
+          fileContent.length.should.be.greaterThan(20);
+          return fileContent;
+        })
+        .then(function (fileData) {
+          // Update file content
+          fileContent = 'First line of file\n' + fileData;
+          return fileContent;
+        })
+        .then(function (fileData) {
+          // Update file
+          return request(app).put('/api/file/README.adoc')
+            .send({content: fileData});
+        })
+        .then(function (res) {
+          // check the index status
+          return request(app).get('/api/git/status')
+            .expect(200);
+        })
+        .then(function (res) {
+          var statuses = res.body;
+          statuses.should.have.length(1);
+          statuses[0].path.should.equal('README.adoc')
+          statuses[0].new.should.equal(0);
+          statuses[0].modified.should.be.greaterThan(1);
+        })
+        .then(function () {
+          // check the file diff
+          return request(app).get('/api/git/files/diff')
+            .expect(200);
+        })
+        .then(function (res) {
+          var patches = res.body;
+          patches.should.have.length(1);
+          var patch = patches[0];
+          patch.newFile.should.equal('README.adoc');
+          patch.oldFile.should.equal('README.adoc');
+          patch.hunks.should.have.length(1);
+          var hunk = patch.hunks[0];
+          hunk.lines[0].origin.should.equal('+');
+          hunk.lines[0].content.should.equal('First line of file');
+          // console.log(hunk);
         });
     });
   });

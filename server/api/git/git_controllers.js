@@ -109,7 +109,7 @@ function getFileTree(repo) {
             return true;
           });
         }
-      });      
+      });
       flatIndex.sort(comparePaths);
       var paths = [];
       flatIndex.forEach(function(element) { buildTree(element, element, paths); });
@@ -138,7 +138,6 @@ module.exports = exports = {
   deleteRepo: function(req, res, next) {
     rimraf(baseRepoPath, function() {
       fs.exists(baseRepoPath, function(exists) {
-        console.log('exists', exists);
         res.send({exists: exists});
       });
     });
@@ -170,6 +169,93 @@ module.exports = exports = {
       } else {
         next('Clone a repo first');
       }
+    });
+  },
+
+  getFilesDiff: function(req, res, next) {
+    var result = {};
+
+    function getConcretePatches(diff) {
+      var concretePatches = [];
+      diff.patches().forEach(function(patch) {
+        var concretePatch = {
+          oldFile: patch.oldFile().path(),
+          newFile: patch.newFile().path(),
+          status: patch.status(),
+          hunks: []
+        };
+        concretePatches.push(concretePatch);
+        patch.hunks().forEach(function(hunk) {
+          var concreteHunk = {
+            header: hunk.header().trim(),
+            lines: []
+          };
+          concretePatch.hunks.push(concreteHunk);
+          var firstLine;
+          var count = 0;
+          hunk.lines().forEach(function(line) {
+            if (!count) {
+              // nodegit seems to choke on the new line character.
+              // handling the new line split ourselves
+              firstLine = line.content().trim().split('\n');
+            };
+            concreteHunk.lines.push({
+              origin: String.fromCharCode(line.origin()),
+              content: firstLine[count++]
+            });
+          });
+        });
+      });
+      return concretePatches;
+    }
+
+    fs.exists(baseRepoPath, function(exists) {
+      if (exists) {
+        nodegit.Repository.open(path.resolve(baseRepoPath, '.git'))
+          .then(function(repo) {
+            result.repo = repo;
+            return repo.index();
+          })
+          .then(function(index) {
+            result.index = index;
+            return nodegit.Diff.indexToWorkdir(result.repo);
+          })
+          .then(function(diff) {
+            res.send(getConcretePatches(diff));
+          }, function(err) {
+            next(err);
+          });
+      }
+    });
+  },
+
+  getStatus: function(req, res, next) {
+    fs.exists(baseRepoPath, function(exists) {
+      if (exists) {
+        nodegit.Repository.open(path.resolve(baseRepoPath, '.git'))
+          .then(function(repo) {
+            return repo.getStatus();
+          })
+          .then(function(statuses) {
+              function getConcreteStatus(status) {
+                return {
+                  path: status.path(),
+                  new: status.isNew(),
+                  modified: status.isModified(),
+                  typechange: status.isTypechange(),
+                  renamed: status.isRenamed(),
+                  ignored: status.isIgnored()
+                };
+              }
+
+              var concreteStatuses = statuses.map(function(status) {
+                return getConcreteStatus(status);
+              });
+              res.json(concreteStatuses);
+            }, function(err) {
+              next(err);
+            });
+      };
     });
   }
 };

@@ -1,6 +1,7 @@
 {
   "name": "codeeditor",
   "version": "0.0.1",
+  "repository": "https://github.com/bleathem/codeeditor/",
   "description": "A node.js application that will clone a local repo and allow local editing of files",
   "main": "index.js",
   "scripts": {
@@ -34,6 +35,6 @@
     "nodegit": "^0.3.0",
     "npm": "^2.7.5",
     "q": "^1.1.2",
-    "rimraf": "^2.2.8"
+    "rimraf": "^2.3.2"
   }
 }

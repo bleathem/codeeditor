@@ -8,5 +8,8 @@ var opts = require('./tasks/gulp-config.js')(gulp, {});
 require('./tasks/server.js')(gulp, opts);
 require('./tasks/test-backend.js')(gulp, opts);
 require('./tasks/watch.js')(gulp, opts);
+require('./tasks/install.js')(gulp, opts);
 
 gulp.task('default', ['serve', 'watch-client']);
+
+gulp.task('install', ['npm-install', 'bower-install']);

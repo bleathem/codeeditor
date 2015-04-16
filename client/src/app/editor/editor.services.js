@@ -8,7 +8,6 @@
     editor.getFile = function(filename) {
       var deferred = $q.defer();
       var url = '/api/git/file/' + filename;
-      console.log(url);
       $http({
         method: 'get',
         url: url
@@ -19,7 +18,23 @@
           deferred.reject(new Error(message));
         });
       return deferred.promise;
-    }
+    };
+
+    editor.saveFile = function(filename, content) {
+      var deferred = $q.defer();
+      var url = '/api/file/' + filename;
+      $http({
+        method: 'put',
+        url: url,
+        data: { content: content }
+      }).then(function(response) {
+        deferred.resolve(response.data);
+      }, function(response) {
+        var message = '#' + response.status + ' - ' + response.statusText;
+        deferred.reject(new Error(message));
+      });
+      return deferred.promise;
+    };
 
     return editor;
   })
@@ -68,9 +83,8 @@
           markGutterRows(editor, startRow, startRow, remMarker)
         } else {
           markGutterRows(editor, startRow, endRow, modMarker)
-        };
+        }
       });
-      return;
     };
 
     return {

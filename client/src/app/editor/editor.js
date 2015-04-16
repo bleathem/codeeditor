@@ -17,6 +17,8 @@
   })
 
   .controller('EditorController', function ($scope, $http, $stateParams, editor, ternServer) {
+    $scope.saveDisabled = true;
+
     $scope.editorfile = {
       path: $stateParams.path
     };
@@ -24,20 +26,32 @@
       lineWrapping : true,
         lineNumbers: true,
         mode: 'javascript'
-    }
+    };
     if ($stateParams.path) {
       editor.getFile($stateParams.path).then(function(contents) {
         $scope.editorfile.contents = contents;
         $scope.editor.setValue(contents);
       })
-    };
-
-    var editor;
-    $scope.codemirrorLoaded = function(_editor){
-      $scope.editor = _editor;
     }
 
-    var server;
+    $scope.codemirrorLoaded = function(_editor){
+      $scope.editor = _editor;
+
+      $scope.editor.on("change", function(codeMirror, change) {
+        if (change.origin != "setValue" && $scope.saveDisabled) {
+          $scope.saveDisabled = false;
+        }
+      });
+    };
+
+    $scope.saveFile = function() {
+      editor.saveFile($scope.editorfile.path, $scope.editor.getValue())
+        .then(function(contents) {
+          $scope.saveDisabled = true;
+          $scope.editorfile.contents = contents;
+        })
+    };
+
     ternServer.get().then(function(server) {
       $scope.editor.setOption('extraKeys', {
         'Ctrl-Space': function(cm) { server.complete(cm); },

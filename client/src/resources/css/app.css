@@ -37,3 +37,8 @@
 .fileContent {
   float: left;
 }
+
+.btn-save {
+  margin-top: -20px;
+  float: right;
+}

@@ -7,7 +7,7 @@
 
     editor.getFile = function(filename) {
       var deferred = $q.defer();
-      var url = '/api/git/file/' + filename;
+      var url = '/api/file/' + filename;
       $http({
         method: 'get',
         url: url

@@ -32,18 +32,6 @@ describe('Rest git API:', function () {
         });
     });
   });
-  describe('GET /api/git/file/filename', function () {
-    it('retrieve a file', function (done) {
-      request(app).get('/api/git/file/gulpfile.js')
-        .expect(200)
-        .end(function (err, res) {
-          var fileContents = res.body;
-          fileContents.length.should.be.greaterThan(10);
-          // res.body.should.be.exactly('path/to/a/file');
-          done();
-        });
-    });
-  });
   describe('POST /api/git/file/diff/:filename', function () {
     it('diff a file', function (done) {
       request(app).post('/api/git/file/diff/gulpfile.js')

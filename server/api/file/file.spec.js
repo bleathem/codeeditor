@@ -25,6 +25,19 @@ describe('Rest file API:', function () {
       });
   });
 
+  describe('File Retrieval:', function () {
+    it('retrieve a file', function (done) {
+      request(app).get('/api/file/gulpfile.js')
+        .expect(200)
+        .end(function (err, res) {
+          var fileContents = res.body;
+          fileContents.length.should.be.greaterThan(10);
+          // res.body.should.be.exactly('path/to/a/file');
+          done();
+        });
+    });
+  });
+
   describe('File Saving:', function () {
     this.timeout(6000);
 
@@ -32,7 +45,7 @@ describe('Rest file API:', function () {
       var fileContent = '';
 
       // Get current file content
-      request(app).get('/api/git/file/README.adoc')
+      request(app).get('/api/file/README.adoc')
         .expect(200)
         .then(function (res) {
           fileContent = res.body;
@@ -53,7 +66,7 @@ describe('Rest file API:', function () {
           res.status.should.be.equal(200);
         })
         .then(function () {
-          return request(app).get('/api/git/file/README.adoc')
+          return request(app).get('/api/file/README.adoc')
             .expect(200);
         })
         .then(function (res) {
@@ -93,7 +106,7 @@ describe('Rest file API:', function () {
           return fileContent;
         })
         .then(function (fileContent) {
-          request(app).get('/api/git/file/testFile.txt')
+          request(app).get('/api/file/testFile.txt')
             .expect(200)
             .then(function (res) {
               res.body.should.be.exactly(fileContent);
@@ -119,7 +132,7 @@ describe('Rest file API:', function () {
           return fileContent;
         })
         .then(function (fileContent) {
-          request(app).get('/api/git/file/anotherFile.txt')
+          request(app).get('/api/file/anotherFile.txt')
             .expect(200)
             .then(function (res) {
               res.body.should.be.exactly(fileContent);
@@ -145,7 +158,7 @@ describe('Rest file API:', function () {
           return fileContent;
         })
         .then(function (fileContent) {
-          request(app).get('/api/git/file/new/path/pathFile.txt')
+          request(app).get('/api/file/new/path/pathFile.txt')
             .expect(200)
             .then(function (res) {
               res.body.should.be.exactly(fileContent);
@@ -170,7 +183,7 @@ describe('Rest file API:', function () {
           res.body.should.be.exactly(fileContent);
         })
         .then(function () {
-          request(app).get('/api/git/file/another/path/to/rootFile.txt')
+          request(app).get('/api/file/another/path/to/rootFile.txt')
             .expect(200)
             .then(function (res) {
               res.body.should.be.exactly(fileContent);

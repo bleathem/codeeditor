@@ -61,6 +61,21 @@ module.exports = exports = {
     baseRepoPath = basePath;
   },
 
+  getFile: function(req, res, next) {
+    fs.exists(baseRepoPath, function(exists) {
+      if (exists) {
+        var filename = req.params.filename + req.params[0];
+        fs.readFile(path.resolve(baseRepoPath, filename), function(err, data) {
+          if (err) throw err;
+
+          res.json(data.toString());
+        });
+      } else {
+        next('Clone a repo first');
+      }
+    });
+  },
+
   updateFile: function(req, res, next) {
     save(req.params.filename + req.params[0], req.body.content, true, res, next);
   },

@@ -7,7 +7,7 @@ var request = require('supertest')
 
 require('should');
 
-describe('Rest API:', function () {
+describe('Rest git API:', function () {
   describe('POST /api/git/clone', function () {
     this.timeout(10000);
     it('clone a repo', function (done) {

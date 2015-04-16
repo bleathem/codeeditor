@@ -16,6 +16,7 @@ module.exports = exports = function (app, express, routers) {
   app.use('/resources', express.static(staticRoot + '/resources'));
   app.use('/lib', express.static(__dirname + '/../../client/lib'));
   app.use('/api/git', routers.gitRouter);
+  app.use('/api/file', routers.fileRouter);
   app.all('/*', function(req, res, next) {
     // Just send the index.html for other files to support HTML5Mode
     res.sendFile('index.html', { root: staticRoot });

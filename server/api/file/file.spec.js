@@ -6,7 +6,7 @@ var request = require("supertest-as-promised")
   , should = require('should')
   ;
 
-describe.skip('Rest file API:', function () {
+describe('Rest file API:', function () {
   before(function () {
     // Clean up any old repo
     return request(app).delete('/api/git')

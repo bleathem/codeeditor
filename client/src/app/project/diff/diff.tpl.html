@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="diff">
+    <h3>Working Dir Diff</h3>
+    <div class="patch" ng-repeat="patch in diff.patches">
+      <div class="filename"><span class="status" ng-class="patch.status">{{patch.status}}</span>: {{patch.oldFile}} : {{patch.newFile}}</div>
+      <div class="hunk" ng-repeat="hunk in patch.hunks">
+        <div class="header">{{hunk.header}}</div>
+        <div class="size">Size: {{hunk.size}}</div>
+        <div class="line" ng-repeat="line in hunk.lines">
+          <span class="origin">{{line.origin}}</span>
+          <span class="content">{{line.content}}</span>
+        </div><!-- hunk -->
+      </div><!-- hunk -->
+    </div><!-- patch -->
+  </div>
+</div>

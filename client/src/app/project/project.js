@@ -4,6 +4,7 @@
     'ui.router',
     'codeeditor.main.project.repo.services',
     'codeeditor.main.project.filetree',
+    'codeeditor.main.project.diff',
     'codeeditor.main.editor'
   ])
 
@@ -22,11 +23,8 @@
         });
     })
 
-    .controller('ProjectController', function ($scope, $http, repoServices) {
-      $scope.project = {
-        url: 'https://github.com/bleathem/codeeditor.git'
-        , paths: []
-      };
+    .controller('ProjectController', function ($scope, $http, repoServices, project) {
+      $scope.project = project;
       repoServices.getFileListing().then(function (paths) {
         $scope.project.paths = paths;
       });

@@ -2,6 +2,14 @@
 (function (angular) {
   angular.module('codeeditor.main.project.repo.services', [])
 
+  .factory('project', function() {
+    var project = {
+      url: 'https://github.com/bleathem/codeeditor.git'
+      , paths: []
+    };
+    return project;
+  })
+
   .factory('repoServices', function ($q, $http) {
     var repo = {};
 

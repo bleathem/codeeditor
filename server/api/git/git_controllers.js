@@ -174,6 +174,7 @@ module.exports = exports = {
 
   getFilesDiff: function(req, res, next) {
     var result = {};
+    var statusValues = ['Unmodified', 'Added', 'Deleted', 'Modified']; // not quite sure if this enumeration is correct/complete
 
     function getConcretePatches(diff) {
       var concretePatches = [];
@@ -181,13 +182,14 @@ module.exports = exports = {
         var concretePatch = {
           oldFile: patch.oldFile().path(),
           newFile: patch.newFile().path(),
-          status: patch.status(),
+          status: statusValues[patch.status()],
           hunks: []
         };
         concretePatches.push(concretePatch);
         patch.hunks().forEach(function(hunk) {
           var concreteHunk = {
             header: hunk.header().trim(),
+            size: hunk.size(),
             lines: []
           };
           concretePatch.hunks.push(concreteHunk);
@@ -201,8 +203,10 @@ module.exports = exports = {
             };
             concreteHunk.lines.push({
               origin: String.fromCharCode(line.origin()),
-              content: firstLine[count++]
+              content: firstLine[count]
+              // content: line.content().trim() //.split('\n')[0]
             });
+            count++;
           });
         });
       });

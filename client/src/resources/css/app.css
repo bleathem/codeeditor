@@ -42,3 +42,20 @@
   margin-top: -20px;
   float: right;
 }
+
+.diff .status {
+  padding: 2px 6px;
+  display: inline-block;
+}
+
+.diff .Modified {
+  background-color: lightblue;
+}
+
+.diff .hunk {
+  border-top: solid 1px black;
+}
+
+.diff .content {
+  white-space: pre;
+}

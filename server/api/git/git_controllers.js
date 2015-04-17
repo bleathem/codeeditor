@@ -5,6 +5,7 @@ var nodegit = require('nodegit')
   , rimraf = require('rimraf')
   , fs = require('fs')
   , gitutils = require('git-utils')
+  , _ = require('underscore')
   ;
 
 function cloneOrOpenRepo(url, repoPath) {
@@ -174,7 +175,7 @@ module.exports = exports = {
 
   getFilesDiff: function(req, res, next) {
     var result = {};
-    var statusValues = ['Unmodified', 'Added', 'Deleted', 'Modified']; // not quite sure if this enumeration is correct/complete
+    var statusValues = _.invert(nodegit.Diff.DELTA);
 
     function getConcretePatches(diff) {
       var concretePatches = [];
@@ -193,20 +194,11 @@ module.exports = exports = {
             lines: []
           };
           concretePatch.hunks.push(concreteHunk);
-          var firstLine;
-          var count = 0;
           hunk.lines().forEach(function(line) {
-            if (!count) {
-              // nodegit seems to choke on the new line character.
-              // handling the new line split ourselves
-              firstLine = line.content().trim().split('\n');
-            };
             concreteHunk.lines.push({
               origin: String.fromCharCode(line.origin()),
-              content: firstLine[count]
-              // content: line.content().trim() //.split('\n')[0]
+              content: line.content().substring(0, line.contentLen() - 1)
             });
-            count++;
           });
         });
       });

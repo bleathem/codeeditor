@@ -48,7 +48,15 @@
   display: inline-block;
 }
 
-.diff .Modified {
+.diff .MODIFIED {
+  background-color: lightblue;
+}
+
+.diff .DELETED {
+  background-color: LightCoral;
+}
+
+.diff .ADDED {
   background-color: lightblue;
 }
 
